@@ -1,6 +1,6 @@
 import UIKit
 import Alamofire
-import Pods_iOS_lab2
+import DGElasticPullToRefresh
 
 class MessageTableViewController: UITableViewController {
     
@@ -17,7 +17,7 @@ class MessageTableViewController: UITableViewController {
         let sendAction = UIAlertAction(title: NSLocalizedString("send", comment: ""), style: .default, handler: { action in
             let name = alertController.textFields?[0].text
             let message = alertController.textFields?[1].text
-            //self.sendMessage(name: name!, message: message!)
+            self.sendMessage(name: name!, message: message!)
             self.getMessages()
             
         })
@@ -56,69 +56,26 @@ class MessageTableViewController: UITableViewController {
                     let name = messageJson["name"]! as! String
                     let message = messageJson["message"]! as! String
                     let timestamp = self.getMinFromDate(dateString: messageJson["timestamp"]! as! String)
-                    self.messages.append(Message(timestamp: String(timestamp), name: name, message: message))
+                    self.messages.append(Message(timestamp: timestamp, name: name, message: message))
                 }
-                self.messages = self.messages.sorted(by: {$0.timestamp > $1.timestamp})
+                self.messages = self.messages.sorted(by: {$0.timestamp < $1.timestamp})
                 self.tableView.reloadData()
         }
     }
     
-    /*
+    
 
     func sendMessage(name: String, message: String) {
         let URL1 = "https://home.agh.edu.pl/~ernst/shoutbox.php?secret=ams2017"
         //let url = URL(URL1)
         let parameters = ["name": name, "message": message]
         
-        Alamofire.upload(
-            multipartFormData: { multipartFormData in
-                multipartFormData.append(name, withName: "name")
-                multipartFormData.append(message, withName: "message")
-        }, to: URL1) {
-            (result) in
-             print(result)
+        Alamofire.request(URL1, method: .post, parameters: parameters).responseJSON {
+            response in print(response)
         }
         
-//        
-//            encodingCompletion: {
-//                encodingResult in
-//                print(encodingResult)
-//            }
-        //)
     }
-    
-    
-    func requestWith(){
-        
-        let url = "http://google.com" /* your API url */
-        
-        let headers: HTTPHeaders = [
-            /* "Authorization": "your_access_token",  in case you need authorization header */
-            "Content-type": "multipart/form-data"
-        ]
-        
-        Alamofire.upload(multipartFormData: { (multipartFormData) in
-            multipartFormData.append("abc", withName: "name")
-            multipartFormData.append("def", withName: "message")
-            
-        }, usingThreshold: UInt64.init(), to: url, method: .post, headers: headers) { (result) in
-            switch result{
-            case .success(let upload, _, _):
-                upload.responseJSON { response in
-                    print("Succesfully uploaded")
-                    if let err = response.error{
-                        onError?(err)
-                        return
-                    }
-                    onCompletion?(nil)
-                }
-            case .failure(let error):
-                print("Error in upload: \(error.localizedDescription)")
-                onError?(error)
-            }
-        }
-    }
-    */
+
     @IBAction func refreshMessages(_ sender: UIRefreshControl) {
         getMessages()
         
@@ -130,15 +87,15 @@ class MessageTableViewController: UITableViewController {
         super.viewDidLoad()
         getMessages()
         
-//        let loadingView = DGElasticPullToRefreshLoadingViewCircle()
-//        loadingView.tintColor = UIColor(red: 78/255.0, green: 221/255.0, blue: 200/255.0, alpha: 1.0)
-//        tableView.dg_addPullToRefreshWithActionHandler({ [weak self] () -> Void in
-//            // Add your logic here
-//            // Do not forget to call dg_stopLoading() at the end
-//            self?.tableView.dg_stopLoading()
-//            }, loadingView: loadingView)
-//        tableView.dg_setPullToRefreshFillColor(UIColor(red: 57/255.0, green: 67/255.0, blue: 89/255.0, alpha: 1.0))
-//        tableView.dg_setPullToRefreshBackgroundColor(tableView.backgroundColor!)
+        let loadingView = DGElasticPullToRefreshLoadingViewCircle()
+        loadingView.tintColor = UIColor(red: 78/255.0, green: 221/255.0, blue: 200/255.0, alpha: 1.0)
+        tableView.dg_addPullToRefreshWithActionHandler({ [weak self] () -> Void in
+            // Add your logic here
+            // Do not forget to call dg_stopLoading() at the end
+            self?.tableView.dg_stopLoading()
+            }, loadingView: loadingView)
+        tableView.dg_setPullToRefreshFillColor(UIColor(red: 57/255.0, green: 67/255.0, blue: 89/255.0, alpha: 1.0))
+        tableView.dg_setPullToRefreshBackgroundColor(tableView.backgroundColor!)
     }
 
     override func didReceiveMemoryWarning() {
