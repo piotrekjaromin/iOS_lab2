@@ -1,0 +1,15 @@
+/* 
+  Localizable.strings
+  iOS_lab2
+
+  Created by Admin on 26/12/2017.
+  Copyright © 2017 Admin. All rights reserved.
+*/
+"minutesago" = " minut temu";
+"says" = " pisze";
+"name" = "Twoje imię";
+"message" = "Twoja wiadomość";
+"modalTitle" = "Nowa wiadomość";
+"modalDescription" = "Wpisz imię i wiadomość";
+"send" = "Wyślij";
+"cancel" = "Anuluj";

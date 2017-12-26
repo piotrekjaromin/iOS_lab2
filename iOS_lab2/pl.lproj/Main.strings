@@ -1,0 +1,15 @@
+
+/* Class = "UILabel"; text = "Subtitle"; ObjectID = "7mM-5p-HI4"; */
+"7mM-5p-HI4.text" = "Podtytuł";
+
+/* Class = "UIBarButtonItem"; title = "Eng"; ObjectID = "bqA-Uf-Iz8"; */
+"bqA-Uf-Iz8.title" = "PL";
+
+/* Class = "UIBarButtonItem"; title = "Compose"; ObjectID = "d5z-jl-GSa"; */
+"d5z-jl-GSa.title" = "Stwórz";
+
+/* Class = "UINavigationItem"; title = "Messages"; ObjectID = "fQH-3L-TxF"; */
+"fQH-3L-TxF.title" = "Wiadomości";
+
+/* Class = "UILabel"; text = "Title"; ObjectID = "i6B-Ui-6co"; */
+"i6B-Ui-6co.text" = "Tytuł";
